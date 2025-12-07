@@ -1,13 +1,16 @@
 #!/bin/bash
 set -e
 
-echo "🚀 SmartStock - Starting on Render.com"
+echo "🚀 SmartStock - Starting on Render.com (Apache)"
 echo "======================================="
 
-# 1. Wait for database to be ready
+# Set PORT default if not provided
+export PORT=${PORT:-8080}
+
+# 1. Wait for database
 echo ""
 echo "⏳ Waiting for database..."
-sleep 5
+sleep 3
 
 # 2. Generate APP_KEY if not exists
 if [ -z "$APP_KEY" ]; then
@@ -19,7 +22,7 @@ fi
 echo ""
 echo "📦 Running migrations..."
 php artisan migrate --force --no-interaction || {
-    echo "⚠️  Migrations failed, continuing anyway..."
+    echo "⚠️  Migrations failed, continuing..."
 }
 
 # 4. Laravel optimizations
@@ -38,7 +41,8 @@ php artisan storage:link || echo "⚠️  Storage link already exists"
 # 6. Set permissions
 echo ""
 echo "🔒 Setting permissions..."
-chmod -R 775 storage bootstrap/cache 2>/dev/null || true
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache 2>/dev/null || true
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache 2>/dev/null || true
 
 # 7. Display info
 echo ""
@@ -46,12 +50,13 @@ echo "ℹ️  Application Info:"
 echo "   - PHP: $(php -v | head -n 1)"
 echo "   - Laravel: $(php artisan --version)"
 echo "   - Environment: ${APP_ENV:-production}"
-echo "   - Port: ${PORT:-8080}"
+echo "   - Port: ${PORT}"
+echo "   - Server: Apache"
 
-# 8. Start server
+# 8. Start Apache
 echo ""
-echo "🌐 Starting Laravel server..."
+echo "🌐 Starting Apache server on port ${PORT}..."
 echo "======================================="
 
-# Execute CMD from Dockerfile
+# Execute Apache
 exec "$@"
