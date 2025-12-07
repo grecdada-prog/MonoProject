@@ -75,5 +75,5 @@ EXPOSE ${PORT:-8080}
 # Use entrypoint
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-# Default command
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=${PORT:-8080}"]
+# Default command (shell form to allow variable expansion)
+CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
