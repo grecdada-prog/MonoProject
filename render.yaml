@@ -9,7 +9,8 @@ services:
     region: frankfurt  # Europe (change si tu veux: oregon, singapore, etc.)
     plan: free  # Plan gratuit (s'endort après 15 min d'inactivité)
     branch: main
-    healthCheckPath: /login
+    # Health check désactivé temporairement pour debug
+    # healthCheckPath: /login
     dockerfilePath: ./Dockerfile
     dockerContext: .
     envVars:
