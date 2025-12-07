@@ -19,7 +19,7 @@ services:
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
-        value: false
+        value: "false"
       - key: APP_URL
         sync: false
       - key: APP_KEY
@@ -61,9 +61,9 @@ services:
       - key: SESSION_LIFETIME
         value: 60
       - key: SESSION_ENCRYPT
-        value: true
+        value: "true"
       - key: SESSION_SECURE_COOKIE
-        value: true
+        value: "true"
       - key: QUEUE_CONNECTION
         value: database
 
