@@ -1,0 +1,127 @@
+# Configuration Render.com pour SmartStock
+# Déploiement gratuit avec PostgreSQL
+
+services:
+  # Service Web Laravel
+  - type: web
+    name: smartstock-web
+    runtime: docker
+    env: docker
+    region: frankfurt  # Europe (change si tu veux: oregon, singapore, etc.)
+    plan: free  # Plan gratuit (s'endort après 15 min d'inactivité)
+    branch: main
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader --no-interaction
+      npm ci --include=dev
+      npm run build
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+    startCommand: |
+      php artisan migrate --force --no-interaction
+      php artisan storage:link || true
+      php artisan serve --host=0.0.0.0 --port=$PORT
+    healthCheckPath: /login
+    envVars:
+      - key: APP_NAME
+        value: SmartStock
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        sync: false
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_TIMEZONE
+        value: UTC
+      - key: APP_LOCALE
+        value: fr
+
+      # Database (sera créé automatiquement ci-dessous)
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: smartstock-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: smartstock-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: smartstock-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: smartstock-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: smartstock-db
+          property: password
+
+      # Cache & Session
+      - key: CACHE_STORE
+        value: database
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_LIFETIME
+        value: 60
+      - key: SESSION_ENCRYPT
+        value: true
+      - key: SESSION_SECURE_COOKIE
+        value: true
+      - key: QUEUE_CONNECTION
+        value: database
+
+      # Logging
+      - key: LOG_CHANNEL
+        value: stack
+      - key: LOG_LEVEL
+        value: info
+
+      # Mail (Gmail SMTP)
+      - key: MAIL_MAILER
+        value: smtp
+      - key: MAIL_HOST
+        value: smtp.gmail.com
+      - key: MAIL_PORT
+        value: 587
+      - key: MAIL_USERNAME
+        value: grecdada@gmail.com
+      - key: MAIL_PASSWORD
+        sync: false  # À configurer manuellement dans Dashboard
+      - key: MAIL_ENCRYPTION
+        value: tls
+      - key: MAIL_FROM_ADDRESS
+        value: grecdada@gmail.com
+      - key: MAIL_FROM_NAME
+        value: SmartStock
+
+      # Pusher (À configurer manuellement)
+      - key: PUSHER_APP_ID
+        sync: false
+      - key: PUSHER_APP_KEY
+        sync: false
+      - key: PUSHER_APP_SECRET
+        sync: false
+      - key: PUSHER_PORT
+        value: 443
+      - key: PUSHER_SCHEME
+        value: https
+      - key: PUSHER_APP_CLUSTER
+        value: eu
+
+      # Security
+      - key: BCRYPT_ROUNDS
+        value: 12
+
+databases:
+  # PostgreSQL Database (Gratuit - 90 jours)
+  - name: smartstock-db
+    databaseName: smartstock
+    user: smartstock
+    plan: free  # Gratuit (expire après 90 jours)
+    region: frankfurt

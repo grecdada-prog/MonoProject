@@ -75,3 +75,7 @@ debug.log
 /.phpunit.cache
 phpunit.xml.dist
 GIT_SETUP_RECAP.md
+.env.railway
+
+# Render.com
+.env.render
