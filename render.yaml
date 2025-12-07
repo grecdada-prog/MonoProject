@@ -6,22 +6,12 @@ services:
   - type: web
     name: smartstock-web
     runtime: docker
-    env: docker
     region: frankfurt  # Europe (change si tu veux: oregon, singapore, etc.)
     plan: free  # Plan gratuit (s'endort après 15 min d'inactivité)
     branch: main
-    buildCommand: |
-      composer install --no-dev --optimize-autoloader --no-interaction
-      npm ci --include=dev
-      npm run build
-      php artisan config:cache
-      php artisan route:cache
-      php artisan view:cache
-    startCommand: |
-      php artisan migrate --force --no-interaction
-      php artisan storage:link || true
-      php artisan serve --host=0.0.0.0 --port=$PORT
     healthCheckPath: /login
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
     envVars:
       - key: APP_NAME
         value: SmartStock
