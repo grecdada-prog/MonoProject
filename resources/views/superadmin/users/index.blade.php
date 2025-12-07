@@ -124,7 +124,7 @@
                                                 <span class="ml-2 text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded-full font-semibold">Vous</span>
                                             @endif
                                         </div>
-                                        <div class="text-sm text-gray-500">@{{ $user->username }}</div>
+                                        <div class="text-sm text-gray-500">{{ $user->username }}</div>
                                     </div>
                                 </div>
                             </td>

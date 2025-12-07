@@ -91,7 +91,7 @@
                                          class="w-10 h-10 rounded-full border-2 border-gray-200">
                                     <div>
                                         <div class="font-semibold text-gray-900">{{ $vendeur->name }}</div>
-                                        <div class="text-sm text-gray-500">@{{ $vendeur->username }}</div>
+                                        <div class="text-sm text-gray-500">{{ $vendeur->username }}</div>
                                     </div>
                                 </div>
                             </td>
