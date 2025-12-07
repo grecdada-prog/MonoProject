@@ -7,6 +7,30 @@ echo "======================================="
 # Set PORT default if not provided
 export PORT=${PORT:-8080}
 
+# Configure Apache with runtime PORT
+echo ""
+echo "🔧 Configuring Apache for port ${PORT}..."
+
+# Update ports.conf
+echo "Listen ${PORT}" > /etc/apache2/ports.conf
+
+# Update VirtualHost with actual PORT value
+cat > /etc/apache2/sites-available/000-default.conf <<EOF
+<VirtualHost *:${PORT}>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html/public
+
+    <Directory /var/www/html/public>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog \${APACHE_LOG_DIR}/error.log
+    CustomLog \${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+EOF
+
 # 1. Wait for database
 echo ""
 echo "⏳ Waiting for database..."
