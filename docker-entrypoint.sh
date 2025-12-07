@@ -11,8 +11,8 @@ export PORT=${PORT:-8080}
 echo ""
 echo "🔧 Configuring Apache for port ${PORT}..."
 
-# Update ports.conf
-echo "Listen ${PORT}" > /etc/apache2/ports.conf
+# Update ports.conf - Listen on ALL interfaces (0.0.0.0)
+echo "Listen 0.0.0.0:${PORT}" > /etc/apache2/ports.conf
 
 # Update VirtualHost with actual PORT value
 cat > /etc/apache2/sites-available/000-default.conf <<EOF
