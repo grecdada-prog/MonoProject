@@ -1,0 +1,105 @@
+# ================================================
+# VARIABLES D'ENVIRONNEMENT POUR RAILWAY
+# ================================================
+# Copie ces variables dans Railway Dashboard > Variables
+# NE PAS commiter ce fichier avec les vraies valeurs !
+
+# ---------------- APP CONFIGURATION ----------------
+APP_NAME="SmartStock Production"
+APP_ENV=production
+APP_DEBUG=false
+APP_TIMEZONE=UTC
+APP_URL=https://VOTRE_APP.up.railway.app
+APP_LOCALE=fr
+APP_FALLBACK_LOCALE=fr
+APP_FAKER_LOCALE=fr_FR
+
+# APP_KEY sera généré automatiquement par Railway
+# Si tu veux le générer manuellement: php artisan key:generate --show
+# APP_KEY=base64:VOTRE_CLE_GENEREE
+
+# ---------------- DATABASE (PostgreSQL Railway) ----------------
+# IMPORTANT: Remplace ces valeurs par celles de ton Dashboard Railway
+DB_CONNECTION=pgsql
+DB_HOST=REMPLACE_PAR_PGHOST
+DB_PORT=REMPLACE_PAR_PGPORT
+DB_DATABASE=REMPLACE_PAR_PGDATABASE
+DB_USERNAME=REMPLACE_PAR_PGUSER
+DB_PASSWORD=REMPLACE_PAR_PGPASSWORD
+
+# Ou utilise la variable magique Railway (recommandé):
+# DATABASE_URL=${DATABASE_URL}
+
+# ---------------- SESSION & CACHE ----------------
+BROADCAST_CONNECTION=pusher
+CACHE_STORE=database
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=database
+
+SESSION_DRIVER=database
+SESSION_LIFETIME=60
+SESSION_ENCRYPT=true
+SESSION_PATH=/
+SESSION_DOMAIN=null
+SESSION_SECURE_COOKIE=true
+SESSION_SAME_SITE=lax
+
+# ---------------- LOGGING ----------------
+LOG_CHANNEL=stack
+LOG_STACK=single
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=info
+
+# ---------------- MAIL (SMTP) ----------------
+# Option 1: Gmail (configure d'abord App Password)
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=grecdada@gmail.com
+MAIL_PASSWORD=uqwyfvscdhnelrxt
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=grecdada@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+
+# Option 2: Brevo (Recommandé - 300 emails/jour gratuit)
+# MAIL_MAILER=smtp
+# MAIL_HOST=smtp-relay.brevo.com
+# MAIL_PORT=587
+# MAIL_USERNAME=votre_email@exemple.com
+# MAIL_PASSWORD=votre_smtp_key_brevo
+# MAIL_ENCRYPTION=tls
+# MAIL_FROM_ADDRESS=noreply@smartstock.com
+# MAIL_FROM_NAME="${APP_NAME}"
+
+# ---------------- PUSHER (Broadcasting) ----------------
+# IMPORTANT: Régénère ces credentials sur dashboard.pusher.com
+PUSHER_APP_ID=VOTRE_APP_ID
+PUSHER_APP_KEY=VOTRE_APP_KEY
+PUSHER_APP_SECRET=VOTRE_APP_SECRET
+PUSHER_HOST=
+PUSHER_PORT=443
+PUSHER_SCHEME=https
+PUSHER_APP_CLUSTER=eu
+
+VITE_APP_NAME="${APP_NAME}"
+VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+VITE_PUSHER_HOST="${PUSHER_HOST}"
+VITE_PUSHER_PORT="${PUSHER_PORT}"
+VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
+VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+
+# ---------------- REDIS (Optionnel) ----------------
+# Si tu ajoutes Redis sur Railway pour le cache (recommandé)
+# REDIS_CLIENT=phpredis
+# REDIS_HOST=${REDIS_HOST}
+# REDIS_PORT=${REDIS_PORT}
+# REDIS_PASSWORD=${REDIS_PASSWORD}
+# CACHE_STORE=redis
+# QUEUE_CONNECTION=redis
+
+# ---------------- SECURITY ----------------
+# Railway fournit automatiquement HTTPS, mais assure-toi:
+ASSET_URL=https://VOTRE_APP.up.railway.app
+
+# ---------------- AUTRES ----------------
+BCRYPT_ROUNDS=12

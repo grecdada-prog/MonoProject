@@ -1,19 +1,15 @@
+# Configuration Railway pour SmartStock
+# Railway utilise Nixpacks pour détecter et builder automatiquement Laravel
+
 [build]
-# Build steps exécutés par Railpacks
 builder = "NIXPACKS"
+buildCommand = "npm run build"
 
-[phases.build]
-cmds = [
-  "composer install --no-dev --optimize-autoloader",
-  "npm install",
-  "npm run build"
-]
+[deploy]
+startCommand = "bash heroku-start.sh"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
 
-[phases.deploy]
-cmds = [
-  "php artisan migrate --force",
-  "php artisan storage:link || true"
-]
-
-[start]
-cmd = "php artisan serve --host=0.0.0.0 --port=${PORT}"
+# Health check
+healthcheckPath = "/login"
+healthcheckTimeout = 300
